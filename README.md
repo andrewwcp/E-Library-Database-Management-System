@@ -290,6 +290,7 @@ Constraint:
   * status
 
 # ERD
+![Pacman-SQL-e-library (1)](https://github.com/andrewwcp/E-Library-Database-Management-System/assets/64004958/d9eb31a4-cdb1-48b3-a825-c00d0ce9794b)
 
 
 
