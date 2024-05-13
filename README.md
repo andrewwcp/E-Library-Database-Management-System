@@ -29,18 +29,6 @@ Industri 4.0 brings advancements in digital technology to various sectors, inclu
 * Users can easily browse, borrow, and place holds on library books while maintaining full control over their accounts.
 
 # Creating Table Structure
-| Nama Table | Deskripsi |
-| --- | --- |
-| libraries | Menyimpan informasi tentang perpustakaan |
-| Books | Menyimpan informasi tentang berbagai jenis buku |
-| Users | Menyimpan informasi mengenai data diri user |
-| Book at library |  Menyimpan informasi  buku yang tersedia di setiap perpustakaan |
-| Categories | Menyimpan kategori dari buku |
-| Authors | Menyimpan informasi dari penulis |
-| Publishers | Menyimpan data dari penerbit |
-| Loan | Menyimpan informasi tentang peminjaman |
-| Hold | Menyimpan informasi tentang pemesanan buku yang akan dipinjam|
-
 1. Libraries Table
 * Deskripsi : menyimpan informasi tentang perpustakaan
 * Nama kolom dan tipe data
@@ -51,6 +39,296 @@ Industri 4.0 brings advancements in digital technology to various sectors, inclu
 | library_name | varchar(100) |  CK → AK |
 | email | varchar(100) | CK → AK |
 | contact_number | varchar(20) | - | 
+
+2. Books Table
+* Deskripsi : menyimpan berbagai jenis informasi mengenai buku
+* Nama kolom dan tipe data
+
+| Nama kolom | Tipe Data | Key |
+| --- | --- | --- |
+| book_id | int | CK → PK |
+| book_title | varchar(100) | CK → AK |
+| date_of_publication | date | |
+| category_id | int | FK |
+| author_id | int | FK |
+| publisher_id | int |FK |
+
+3. Users Table
+* Deskripsi : Menyimpan informasi mengenai data diri user
+* Nama kolom dan tipe data
+
+| Nama kolom | Tipe Data | Key |
+| --- | --- | --- | 
+| user_id | int | CK → PK|
+| username | varchar(100) | CK → AK
+| first_name | varchar(100) | 
+| last_name | varchar(100) |
+| email | varchar(100) |CK → AK |
+| password | varchar(100) |
+| contact_number | varchar(20) |
+
+4. Book at library Table
+* Deskripsi : Menyimpan informasi buku yang disimpan di setiap perpustakaan
+* Nama kolom dan tipe data
+
+| Nama kolom | Tipe Data | Key |
+| --- | --- | --- |
+| library_book_id | int | CK → PK |
+| library_id | int | FK 
+| book_id |int | FK |
+| quantity | int |
+
+5. Categories Table
+* Deskripsi : Menyimpan kategori dari buku
+* Nama kolom dan tipe data
+
+| Nama kolom | Tipe Data | Key |
+| --- | --- | --- |
+| category_id | int | CK → PK |
+| category_name | varchar(50) | CK → AK |
+
+6. Authors Table
+* Deskripsi : Menyimpan informasi dari penulis
+* Nama kolom dan tipe data
+
+| Nama kolom | Tipe Data | Key |
+| --- | --- | --- |
+| author_id | int | CK → PK |
+| name | varchar(100) | CK → AK |
+| email | varchar(100) | CK → AK |
+| contact_number | varchar(20) |
+
+7. Publisher Table
+* Deskripsi : Menyimpan informasi dari publisher
+* Nama kolom dan tipe data
+
+| Nama kolom | Tipe Data | Key |
+| --- | --- | --- |
+| publisher_id | int | CK → PK |
+| name | varchar(100) | CK → AK |
+| address | varchar(200) |
+| email | varchar(100) | CK → AK |
+| contact_number | varchar(20) |
+
+8. Loan Table 
+* Deskripsi : Menyimpan history peminjaman dari user
+* Nama kolom dan tipe data
+
+| Nama kolom | Tipe Data | Key |
+| --- | --- | --- |
+| loan_id | int | CK → PK |
+| user_id | int | FK |
+| library_book_id | int | FK |
+| loan_date | timestamp |
+| due_date | timestamp |
+| return_date | timestamp |
+| status | varchar(50) |
+
+9. Hold Table
+* Deskripsi : Menyimpan informasi mengenai pemesanan buku yang akan dipinjam (hold)
+* Nama kolom dan tipe data
+
+| Nama kolom | Tipe Data | Key |
+| --- | --- | --- |
+| hold_id | int | CK → PK |
+| user_id | int | FK |
+| library_book_id | int | FK |
+| hold_date | timestamp |
+| expire_date | timestamp |
+| status | varchar(50) |
+
+# Defining Relationship
+| - | Libraries | Books | Users | Book at Library | Categories | Authors | Publishers | Hold | Loan | libraries |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **libraries** | - | - | - | 1:N | - | - | - | - | - | - |
+| **Books** | - | - | - | 1:N | - | - | - | - | - | - |
+| **Users** | - | - | - | - | - | - | - | - | 1:N | 1:N |
+| **Book at Library** | - | - | - | - | - | - | - | - | - | - |
+| **Categories** | - | 1:N | - | - | - | - | - | - | - | - |
+| **Authors** | - | 1:N | - | - | - | - | - | - | - | - |
+| **Publishers** | - | 1:N | - | - | - | - | - | - | - | - |
+| **Hold** | - | - | - | - | - | - | - | - | - | - |
+| **Loan** | - | - | - | - | - | - | - | - | - | - |
+| **libraries** | - | - | - | - | - | - | - | - | - | - |
+
+Note: 
+* 1:N : One-to-many relationship
+* 1:1 : One-to-one relationship
+* N:N : Many-to-many relationship
+
+# Defining Business Rules and Constraint
+**1. Libraries table**
+
+Business Rules:
+* Primary key bersifat auto increment
+* Informasi harus lengkap
+
+Constraint:
+* Tipe library_id : serial
+* Not Null pada field
+  * library_id
+  * library_name
+  * email
+  * contact_number
+
+**2. Books table**
+
+Business Rules:
+* Primary key bersifat auto increment
+* Informasi harus lengkap 
+
+Constraint:
+* Tipe book_id : serial 
+* Not Null pada field :
+  * book_id
+  * book_title
+  * date_of_publication
+  * category_id
+  * author_id
+  * publisher_id
+
+**3. Users table**
+
+Business Rules:
+* Primary key bersifat auto increment
+* informasi harus lengkap 
+
+Constraint:
+* Tipe user_id : serial 
+* Not Null pada field :
+  * user_id
+  * username
+  * first_name
+  * last_name
+  * email
+  * password
+  * contact_number
+
+**4. Book at library  table**
+
+Business Rules:
+* Primary key bersifat auto increment
+* informasi harus lengkap 
+* nilai quantity lebih dari atau sama dengan 0
+
+Constraint:
+* Tipe library_book_id: serial 
+* Not Null pada field:
+  * library_book_id
+  * library_id
+  * book_id
+  * quantity
+* CHECK pada quantity >= 0
+
+**5. Categories table**
+
+Business Rules:
+* informasi harus lengkap
+
+Constraint:
+* Not Null pada field:
+  * category_id
+  * category_name
+ 
+**6. Authors table**
+
+Business Rules:
+* Primary key bersifat auto increment
+* informasi harus lengkap
+  
+Constraint:
+* Tipe author_id: serial 
+* Not Null pada field:
+  * author_id
+  * name
+  * email
+  * contact_number
+
+**7. Publisher table**
+
+Business Rules:
+* Primary key bersifat auto increment
+* informasi harus lengkap
+
+Constraint:
+* Tipe publisher_id: serial 
+* Not Null pada field:
+  * publisher_id
+  * name
+  * email
+  * contact_number
+ 
+**8. Loan table**
+
+Business Rules:
+* Primary key bersifat auto increment
+* informasi harus lengkap kecuali return date
+
+Constraint:
+* Tipe loan_id : serial 
+* Not Null pada field:
+  * loan_id
+  * user_id
+  * library_book_id
+  * loan_date
+  * due_date
+  * status
+ 
+**9. Hold table**
+
+Business Rules:
+* Primary key bersifat auto increment
+* informasi harus lengkap kecuali expire_date 
+
+Constraint:
+* Tipe hold_id: serial 
+* Not Null pada field:
+  * hold_id
+  * user_id
+  * library_book_id
+  * hold_date
+  * status
+
+# ERD
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
 
 
 
